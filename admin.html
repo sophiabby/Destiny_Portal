@@ -402,10 +402,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // Check if the admin successfully logged in previously
     const isAdminLoggedIn = localStorage.getItem("adminSessionActive");
     
-    if (isAdminLoggedIn !== "true") {
-        alert("Unauthorized access! Booting to login screen.");
-        window.location.href = "index.html"; // Redirects to your login page
-    }
+   // Check if the admin is logged in
+if (localStorage.getItem('adminSessionActive') !== 'true') {
+    alert("Unauthorized access! Booting to login screen.");
+    window.location.href = "./index.html";
+}
 });
 const firebaseConfig = {
   apiKey: "AIzaSyDq3sT7R3QL6oA8NTp7sBkV6uWNESzjmko",

@@ -251,10 +251,13 @@ function adminLogin(){
     const username = document.getElementById("adminUsername").value.trim();
     const password = document.getElementById("adminPassword").value;
 
-    if(username === "admin123" && password === "destiny"){
-        fireLoader(true);
-        setTimeout(() => { window.location.href = "admin.html"; }, 800);
-    } else {
+   if (username === 'admin123' && password === 'destiny') {
+    // 1. Set the security key in the browser memory
+    localStorage.setItem('adminSessionActive', 'true');
+    
+    // 2. Redirect to the admin page
+    window.location.href = "./admin.html";
+} else {
         alert("Invalid administrative login credentials verified.");
     }
 }
