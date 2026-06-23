@@ -214,6 +214,7 @@ function fireLoader(show) {
     }
 }
 
+<script>
 function studentLogin(){
     const roll = document.getElementById("roll").value.trim();
     const password = document.getElementById("password").value.trim();
@@ -221,17 +222,18 @@ function studentLogin(){
     if(!roll || !password) return alert("Please fill in both your roll number and password inputs.");
 
     fireLoader(true);
+    
     database.ref('students/' + roll).once('value')
     .then((snapshot) => {
         if(snapshot.exists()) {
             const student = snapshot.val();
             if(student.password === password) {
-                database.ref('loginLogs').push().set({
+                return database.ref('loginLogs').push().set({
                     roll: roll,
                     timestamp: new Date().toLocaleString()
                 }).then(() => {
                     localStorage.setItem("currentStudentRoll", roll);
-                    window.location.href = "dashboard.html";
+                    window.location.href = "dashboard.html"; 
                 });
             } else {
                 fireLoader(false);
@@ -241,9 +243,11 @@ function studentLogin(){
             fireLoader(false);
             alert("No registered student record matches this Roll Number.");
         }
-    }).catch(err => {
+    })
+    .catch(err => {
         fireLoader(false);
         console.error(err);
+        alert("Login failed: " + err.message);
     });
 }
 
@@ -251,17 +255,15 @@ function adminLogin(){
     const username = document.getElementById("adminUsername").value.trim();
     const password = document.getElementById("adminPassword").value;
 
-   if (username === 'admin123' && password === 'destiny') {
-    // 1. Set the security key in the browser memory
-    localStorage.setItem('adminSessionActive', 'true');
-    
-    // 2. Redirect to the admin page
-    window.location.href = "./admin.html";
-} else {
+    if (username === 'admin123' && password === 'destiny') {
+        localStorage.setItem('adminSessionActive', 'true');
+        window.location.href = "./admin.html";
+    } else {
         alert("Invalid administrative login credentials verified.");
     }
 }
 </script>
+
 <footer style="text-align: center; padding: 35px; margin-top: 40px; font-family: 'Times New Roman', 'Georgia', serif; letter-spacing: 2px;">
     <p style="color: #64748b; margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 6px;">Architected By</p>
     <p style="margin: 8px 0 0 0; font-weight: 800; font-size: 30px; display: inline-block;
