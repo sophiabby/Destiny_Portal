@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard - ICFAI SIS</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Arial, sans-serif; }
+    
+    html {
+        min-height: 100vh;
+    }
+    
+    body { 
+        display: flex; 
+        min-height: 100vh; 
+        background: transparent; 
+        position: relative;
+    }
+
+    /* Renders your background picture completely raw and untouched */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-image: url('ICFAIimage.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    
+    .sidebar { width: 260px; background: #0568be; color: white; display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0; box-shadow: 2px 0 10px rgba(0,0,0,0.1); z-index: 10; }
+    .sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-header h2 { font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+    .sidebar-menu { list-style: none; padding: 20px 0; flex-grow: 1; }
+    .sidebar-menu li a { display: flex; align-items: center; padding: 15px 25px; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 15px; transition: 0.3s; cursor: pointer; }
+    .sidebar-menu li a i { margin-right: 15px; width: 20px; text-align: center; font-size: 16px; }
+    .sidebar-menu li a:hover { background: rgba(255,255,255,0.1); color: white; }
+    
+    .main-content { margin-left: 260px; flex-grow: 1; padding: 40px; position: relative; z-index: 1; }
+    
+    /* Adjusted panels to 0.96 opacity so text remains perfectly legible over raw image details */
+    .header-panel { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(2px); padding: 20px 30px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.03); margin-bottom: 30px; }
+    .header-panel h1 { font-size: 24px; color: #333; }
+    
+    .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .card { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(2px); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); padding: 25px; transition: 0.3s; border-top: 4px solid #0568be; }
+    .card-title { font-size: 17px; font-weight: 600; color: #444; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .info-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+    .info-item span.label { color: #777; font-weight: 500; }
+    .info-item span.val { color: #111; font-weight: 600; text-align: right; }
+    
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+    .modal-container { background: white; width: 100%; max-width: 650px; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; position: relative; }
+    .close-modal { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; transition: 0.3s; }
+    .close-modal:hover { color: #333; }
+    .popup-title { margin-bottom: 20px; font-size: 20px; color: #0568be; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #0568be; padding-bottom: 10px; }
+    .data-item { background: #f8f9fa; border-left: 4px solid #0568be; padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
+    .data-item h3 { font-size: 15px; margin-bottom: 5px; color: #222; }
+    .data-item p { font-size: 13.5px; color: #666; line-height: 1.5; }
+    
+    /* Semester Layout Configurations */
+    .semester-section { background: #f8f9fa; border-radius: 8px; padding: 14px; margin-bottom: 14px; border-left: 4px solid #0568be; }
+    .semester-section h3 { font-size: 15px; color: #222; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+
+    .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .edit-group { margin-bottom: 15px; }
+    .edit-group.full { grid-column: span 2; }
+    .edit-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; }
+    .edit-group input, .edit-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+    .save-btn { width: 100%; padding: 12px; background: #28a745; border: none; color: white; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+    .save-btn:hover { background: #218838; }
+    
+    .subject-pill { display: inline-block; background: #e7f1ff; color: #0568be; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; margin: 3px 4px 3px 0; border: 1px solid rgba(5,104,190,0.15); }
+/* Mobile Optimization for Dashboard */
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column; /* Stack sidebar on top or hide it */
+    }
+
+    .sidebar {
+        width: 100% !important;
+        min-height: auto !important;
+        position: relative;
+        padding: 15px !important;
+    }
+
+    .sidebar .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px !important;
+    }
+
+    .sidebar .nav-links a {
+        flex: 1 1 40%; /* Grid-like navigation buttons for fingers */
+        margin: 0 !important;
+        justify-content: center;
+        padding: 10px !important;
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding: 15px !important;
+        width: 100%;
+    }
+
+    /* Wrap tables to prevent text overflow layout breaks */
+    .table-container, table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* Adjust main grid summary blocks */
+    .dashboard-grid {
+        grid-template-columns: 1fr !important; /* Single column layout */
+        gap: 15px !important;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h2>ICFAI SIS</h2>
+        <p>University Dashboard</p>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a onclick="openModal('modal-info-view')"><i class="fas fa-id-card"></i> Profile Summary</a></li>
+        <li><a onclick="openModal('modal-info-changes')"><i class="fas fa-user-edit"></i> Modify Personal Data</a></li>
+        <li><a onclick="openModal('modal-marks')"><i class="fas fa-poll-h"></i> Internal Marks</a></li>
+        <li><a onclick="openModal('modal-syllabus')"><i class="fas fa-book"></i> Syllabus</a></li>
+        <li><a onclick="logout()"><i class="fas fa-sign-out-alt"></i> Exit Session</a></li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <div class="header-panel">
+        <h1>Welcome Back, <span id="dash-student-name">Loading...</span></h1>
+        <div style="font-weight: 600; color: #555;">Status: <span style="color:#28a745;"><i class="fas fa-circle"></i> Connected</span></div>
+    </div>
+
+    <div class="grid-container">
+        <div class="card">
+            <div class="card-title"><i class="fas fa-graduation-cap"></i> Program Snapshot</div>
+            <div class="info-item"><span class="label">Roll Number:</span><span class="val" id="card-roll">---</span></div>
+            <div class="info-item"><span class="label">Department:</span><span class="val" id="card-dept">---</span></div>
+            <div class="info-item"><span class="label">Academic Year:</span><span class="val" id="card-year">---</span></div>
+            <div class="info-item"><span class="label">Cumulative CGPA:</span><span class="val" id="card-cgpa" style="color:#0568be; font-size:16px;">0.00</span></div>
+        </div>
+        <div class="card">
+            <div class="card-title"><i class="fas fa-university"></i> Quick Notifications</div>
+            <div class="data-item">
+                <h3>Semester Registrations Open</h3>
+                <p>Ensure administrative tuition balances clear preceding testing cycles.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-info-view" class="modal-overlay" onclick="closeModalOnOverlay(event, this)">
+    <div class="modal-container">
+        <span class="close-modal" onclick="closeModal('modal-info-view')">&times;</span>
+        <h2 class="popup-title"><i class="fas fa-id-badge"></i> Certified Enrollment Archive</h2>
+        <div id="profile-details-target"></div>
+    </div>
+</div>
+
+<div id="modal-syllabus" class="modal-overlay" onclick="closeModalOnOverlay(event, this)">
+    <div class="modal-container">
+        <span class="close-modal" onclick="closeModal('modal-syllabus')">&times;</span>
+        <h2 class="popup-title"><i class="fas fa-book"></i> Focus Program Syllabus (<span id="syllabus-dept-title">General</span>)</h2>
+        <div id="syllabus-content"></div>
+    </div>
+</div>
+
+<div id="modal-marks" class="modal-overlay" onclick="closeModalOnOverlay(event, this)">
+    <div class="modal-container">
+        <span class="close-modal" onclick="closeModal('modal-marks')">&times;</span>
+        <h2 class="popup-title"><i class="fas fa-poll-h"></i> Performance Metrics Sheet</h2>
+        <div id="marks-display-target"></div>
+    </div>
+</div>
+
+<div id="modal-info-changes" class="modal-overlay" onclick="closeModalOnOverlay(event, this)">
+    <div class="modal-container">
+        <span class="close-modal" onclick="closeModal('modal-info-changes')">&times;</span>
+        <h2 class="popup-title"><i class="fas fa-user-edit"></i> Edit Core Particulars</h2>
+        <form id="editForm">
+            <div class="edit-grid">
+                <div class="edit-password-holder edit-group"><label>Password</label><input type="password" id="edit-password" required></div>
+                <div class="edit-group"><label>Full Name</label><input type="text" id="edit-fullName" required></div>
+                <div class="edit-group"><label>Father's Name</label><input type="text" id="edit-fatherName" required></div>
+                <div class="edit-group"><label>Age</label><input type="number" id="edit-age" required></div>
+                <div class="edit-group">
+                    <label>Department</label>
+                    <select id="edit-department" required>
+                        <option value="BCA">BCA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="BBA_HT">BBA_HT</option>
+                        <option value="BA">BA</option>
+                        <option value="BSW">BSW</option>
+                        <option value="BCOM">BCOM</option>
+                        <option value="MBA">MBA</option>
+                        <option value="MCOM">MCOM</option>
+                        <option value="MSW">MSW</option>
+                        <option value="MA">MA</option>
+                        <option value="DOC">DOC</option>
+                    </select>
+                </div>
+                <div class="edit-group">
+                    <label>Year</label>
+                    <select id="edit-year" required>
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+                    </select>
+                </div>
+                <div class="edit-group"><label>CGPA</label><input type="text" id="edit-cgpa" required></div>
+                <div class="edit-group"><label>Mobile</label><input type="tel" id="edit-mobile" required></div>
+            </div>
+            <button type="submit" class="save-btn">Apply Cloud Update</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDq3sT7R3QL6oA8NTp7sBkV6uWNESzjmko",
+  authDomain: "studentinfo-7b36d.firebaseapp.com",
+  databaseURL: "https://studentinfo-7b36d-default-rtdb.firebaseio.com",
+  projectId: "studentinfo-7b36d",
+  storageBucket: "studentinfo-7b36d.firebasestorage.app",
+  messagingSenderId: "10133236572",
+  appId: "1:10133236572:web:28714298efdb380d692f99",
+  measurementId: "G-PFXBVTTHHV"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+let currentStudentRoll = localStorage.getItem("currentStudentRoll");
+let activeStudentObject = null;
+
+if(!currentStudentRoll) {
+    window.location.href = "index.html";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    syncStudentData();
+});
+
+function syncStudentData() {
+    database.ref('students/' + currentStudentRoll).on('value', function(snapshot) {
+        if(snapshot.exists()) {
+            activeStudentObject = snapshot.val();
+            populateDashboardData(activeStudentObject);
+            renderDynamicSyllabus(activeStudentObject.department);
+            renderStudentMarks(activeStudentObject.roll);
+        } else {
+            logout();
+        }
+    });
+}
+
+function populateDashboardData(student) {
+    document.getElementById("dash-student-name").innerText = student.fullName;
+    document.getElementById("card-roll").innerText = student.roll;
+    document.getElementById("card-dept").innerText = student.department;
+    document.getElementById("card-year").innerText = student.year;
+    document.getElementById("card-cgpa").innerText = student.cgpa;
+
+    document.getElementById("profile-details-target").innerHTML = `
+        <div class="info-item"><span class="label">Father's Relation:</span><span class="val">${student.fatherName}</span></div>
+        <div class="info-item"><span class="label">Age Tracker:</span><span class="val">${student.age} Years</span></div>
+        <div class="info-item"><span class="label">Gender Parameter:</span><span class="val">${student.gender || 'Not Specified'}</span></div>
+        <div class="info-item"><span class="label">Marital Designation:</span><span class="val">${student.maritalStatus || 'Not Specified'}</span></div>
+        <div class="info-item"><span class="label">Cell contact:</span><span class="val">${student.mobile}</span></div>
+        <div class="info-item"><span class="label">Matric School/Year:</span><span class="val">${student.school10 || '---'} (${student.pass10 || '---'})</span></div>
+        <div class="info-item"><span class="label">Secondary School/Year:</span><span class="val">${student.school12 || '---'} (${student.pass12 || '---'})</span></div>
+    `;
+
+    document.getElementById("edit-password").value = student.password;
+    document.getElementById("edit-fullName").value = student.fullName;
+    document.getElementById("edit-fatherName").value = student.fatherName;
+    document.getElementById("edit-age").value = student.age;
+    document.getElementById("edit-department").value = student.department;
+    document.getElementById("edit-year").value = student.year;
+    document.getElementById("edit-cgpa").value = student.cgpa;
+    document.getElementById("edit-mobile").value = student.mobile;
+}
+
+function renderDynamicSyllabus(dept) {
+    const titleSpan = document.getElementById("syllabus-dept-title");
+    const contentDiv = document.getElementById("syllabus-content");
+    
+    if(!dept) {
+        contentDiv.innerHTML = "<p style='text-align:center; color:#999;'>No department found for this profile track.</p>";
+        return;
+    }
+
+    let key = dept.trim().toUpperCase();
+    titleSpan.innerText = key;
+    contentDiv.innerHTML = "<p style='text-align:center; color:#999;'><i class='fas fa-spinner fa-spin'></i> Loading shared curriculum matrix data...</p>";
+
+    database.ref('curriculum/' + key).once('value', snapshot => {
+        if(snapshot.exists()) {
+            const data = snapshot.val();
+            titleSpan.innerText = data.title;
+            
+            let tempDiv = document.createElement('div');
+            tempDiv.innerHTML = data.content;
+            
+            let subjectPills = Array.from(tempDiv.querySelectorAll('.subject-pill'));
+            
+            if (subjectPills.length > 0) {
+                let semBlocksHtml = ["", "", "", "", "", ""];
+                let activeSem = 0;
+                let countsPerSem = [0, 0, 0, 0, 0, 0];
+                
+                subjectPills.forEach((pill) => {
+                    let loops = 0;
+                    while (countsPerSem[activeSem] >= 3 && loops < 6) {
+                        activeSem = (activeSem + 1) % 6;
+                        loops++;
+                    }
+                    
+                    if (countsPerSem[activeSem] < 3) {
+                        semBlocksHtml[activeSem] += pill.outerHTML;
+                        countsPerSem[activeSem]++;
+                        activeSem = (activeSem + 1) % 6;
+                    }
+                });
+                
+                let fullLayoutHtml = "";
+                for (let i = 0; i < 6; i++) {
+                    fullLayoutHtml += `
+                        <div class="semester-section">
+                            <h3><i class="fas fa-bookmark" style="color:#0568be;"></i> Semester ${i + 1}</h3>
+                            <div>${semBlocksHtml[i] || '<span style="color:#aaa; font-size:12px; font-style:italic;">Core Electives Pending</span>'}</div>
+                        </div>
+                    `;
+                }
+                
+                contentDiv.innerHTML = fullLayoutHtml;
+            } else {
+                contentDiv.innerHTML = data.content;
+            }
+        } else {
+            contentDiv.innerHTML = `
+                <div class="data-item">
+                    <h3>${key} Matrix</h3>
+                    <p>Syllabus structural details are currently pending database synchronization from administrative operations.</p>
+                </div>`;
+        }
+    }).catch(err => {
+        contentDiv.innerHTML = `<p style="color:red; text-align:center;">Error looking up database path: ${err.message}</p>`;
+    });
+}
+
+function renderStudentMarks(roll) {
+    database.ref('marksheetData').once('value', function(snapshot) {
+        const target = document.getElementById("marks-display-target");
+        let html = "";
+        let found = false;
+
+        snapshot.forEach(child => {
+            const m = child.val();
+            if(m.roll === roll) {
+                found = true;
+                html += `<div class="data-item"><h3>${m.subject}</h3><p>Scored Evaluation Status: <strong>${m.marks} / 100</strong></p></div>`;
+            }
+        });
+
+        target.innerHTML = found ? html : `<p style='text-align:center; color:#999;'>No performance marks entries uploaded for this profile yet.</p>`;
+    });
+}
+
+document.getElementById("editForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const updatedStudent = {
+        ...activeStudentObject,
+        password: document.getElementById("edit-password").value,
+        fullName: document.getElementById("edit-fullName").value,
+        fatherName: document.getElementById("edit-fatherName").value,
+        age: document.getElementById("edit-age").value,
+        department: document.getElementById("edit-department").value,
+        year: document.getElementById("edit-year").value,
+        cgpa: document.getElementById("edit-cgpa").value,
+        mobile: document.getElementById("edit-mobile").value
+    };
+
+    database.ref('students/' + currentStudentRoll).update(updatedStudent)
+    .then(() => {
+        alert("Profile update synced successfully across live configuration!");
+        closeModal('modal-info-changes');
+    })
+    .catch(err => alert("Update failed: " + err.message));
+});
+
+function openModal(id) { document.getElementById(id).style.display = "flex"; }
+function closeModal(id) { document.getElementById(id).style.display = "none"; }
+function closeModalOnOverlay(e, element) { if(e.target === element) element.style.display = "none"; }
+function logout() { localStorage.clear(); window.location.href = "index.html"; }
+</script>
+</body>
+</html>
