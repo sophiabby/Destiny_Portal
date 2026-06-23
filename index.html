@@ -253,6 +253,7 @@ function adminLogin(){
 
     if(username === "admin123" && password === "destiny"){
         fireLoader(true);
+       localStorage.setItem("adminSessionActive", "true");
         setTimeout(() => { window.location.href = "admin.html"; }, 800);
     } else {
         alert("Invalid administrative login credentials verified.");
