@@ -97,23 +97,23 @@
             flex-direction: column; /* Stack columns sequentially on mobile */
             gap: 30px;
             padding: 25px 20px;
-            box-shadow: 4px 4px 0px #111111; /* Slightly lighter flat-box accent depth on small screens */
+            box-shadow: 4px 4px 0px #111111; 
         }
         .login-container {
-            max-width: 100%; /* Take up complete screen container footprint */
+            max-width: 100%; 
         }
         .divider {
             width: 100%;
-            height: 1px; /* Turn the vertical divider into a clean horizontal line */
+            height: 1px; 
             margin: 5px 0;
         }
         .input-group input {
-            font-size: 16px; /* Prevents mobile Safari / iOS browsers from forcing a sudden screen zoom on focus */
+            font-size: 16px; 
             padding: 12px;
         }
         .btn {
             padding: 14px;
-            font-size: 16px; /* Finger-friendly touch sizing target scales */
+            font-size: 16px; 
         }
     }
 </style>
@@ -214,7 +214,6 @@ function fireLoader(show) {
     }
 }
 
-<script>
 function studentLogin(){
     const roll = document.getElementById("roll").value.trim();
     const password = document.getElementById("password").value.trim();
@@ -233,7 +232,7 @@ function studentLogin(){
                     timestamp: new Date().toLocaleString()
                 }).then(() => {
                     localStorage.setItem("currentStudentRoll", roll);
-                    window.location.href = "dashboard.html"; 
+                    window.location.href = "./dashboard.html"; 
                 });
             } else {
                 fireLoader(false);
