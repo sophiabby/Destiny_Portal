@@ -35,6 +35,7 @@
         backdrop-filter: blur(2px);
     }
     
+    /* SIDEBAR - DESKTOP DEF */
     .sidebar { 
         width: 260px; 
         background: rgba(13, 110, 253, 0.9); 
@@ -56,7 +57,8 @@
     .sidebar-menu li a i { margin-right: 15px; width: 20px; text-align: center; font-size: 16px; }
     .sidebar-menu li a:hover { background: rgba(255,255,255,0.1); color: white; }
     
-    .main-content { margin-left: 260px; flex-grow: 1; padding: 40px; }
+    /* MAIN INTERFACE CONTEXT */
+    .main-content { margin-left: 260px; flex-grow: 1; padding: 40px; width: calc(100% - 260px); }
     
     .header-panel { 
         display: flex; 
@@ -82,28 +84,28 @@
     }
     .panel-title { font-size: 18px; font-weight: 600; color: #333; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
     
-    .stats-matrix { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
-    .stats-badge-item { background: #f8f9fa; border: 1px solid #e2e8f0; border-left: 4px solid #20c997; padding: 12px 15px; border-radius: 0 8px 8px 0; display: flex; justify-content: space-between; align-items: center; }
-    .stats-badge-item span.label { font-weight: 600; font-size: 13.5px; color: #475569; }
-    .stats-badge-item span.count { background: #20c997; color: white; font-weight: 700; font-size: 12px; padding: 3px 10px; border-radius: 20px; }
+    .stats-matrix { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; }
+    .stats-badge-item { background: #f8f9fa; border: 1px solid #e2e8f0; border-left: 4px solid #0d6efd; padding: 12px 15px; border-radius: 0 8px 8px 0; display: flex; justify-content: space-between; align-items: center; min-width: 240px; flex-grow: 1; }
+    .stats-badge-item span.label { font-weight: 600; font-size: 13.5px; color: #475569; margin-right: 15px; }
+    .stats-badge-item span.count { background: #0d6efd; color: white; font-weight: 700; font-size: 12px; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
 
     .search-container { display: flex; gap: 15px; background: rgba(248, 249, 250, 0.85); padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e2e8f0; align-items: flex-end; flex-wrap: wrap; }
-    .search-group { display: flex; flex-direction: column; flex-grow: 1; min-width: 150px; }
+    .search-group { display: flex; flex-direction: column; flex-grow: 1; min-width: 200px; }
     .search-group label { font-size: 12px; font-weight: 700; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .search-group input, .search-group select { padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: white; transition: 0.2s; }
+    .search-group input, .search-group select { padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: white; transition: 0.2s; width: 100%; }
     .search-group input:focus, .search-group select:focus { border-color: #0d6efd; outline: none; box-shadow: 0 0 0 3px rgba(13,110,253,0.15); }
-    .clear-search-btn { padding: 9px 18px; background: #64748b; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; height: 38px; }
+    .clear-search-btn { padding: 9px 18px; background: #64748b; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; height: 38px; flex-grow: 1; min-width: 120px; }
     .clear-search-btn:hover { background: #475569; }
 
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
     .form-group { display: flex; flex-direction: column; }
     .form-group label { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; }
-    .form-group input, .form-group select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+    .form-group input, .form-group select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; width: 100%; }
     .submit-btn { padding: 12px 25px; background: #0d6efd; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.3s; align-self: flex-end; }
     .submit-btn:hover { background: #0b5ed7; }
     
-    .table-container { overflow-x: auto; margin-top: 15px; }
-    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+    .table-container { overflow-x: auto; margin-top: 15px; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid #eee; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; min-width: 700px; }
     th, td { padding: 12px 15px; border-bottom: 1px solid #eee; }
     th { background: #f8f9fa; color: #555; font-weight: 600; }
     tr:hover { background: rgba(13, 110, 253, 0.02); }
@@ -111,12 +113,13 @@
     .action-btn { padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; font-size: 12px; cursor: pointer; }
     .action-btn:hover { background: #bb2d3b; }
     
-    .matrix-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
-    .matrix-btn { background: #f8f9fa; border: 1px solid #ddd; padding: 15px; text-align: center; border-radius: 8px; font-weight: 600; color: #333; cursor: pointer; transition: 0.3s; }
+    .matrix-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
+    .matrix-btn { background: #f8f9fa; border: 1px solid #ddd; padding: 15px 10px; text-align: center; border-radius: 8px; font-weight: 600; color: #333; cursor: pointer; transition: 0.3s; font-size: 13px; }
     .matrix-btn:hover { background: #0d6efd; color: white; border-color: #0d6efd; transform: translateY(-2px); }
     
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-    .modal-container { background: white; width: 100%; max-width: 650px; border-radius: 12px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); max-height: 85vh; overflow-y: auto; position: relative; }
+    /* MODAL INFRASTRUCTURE RULES */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+    .modal-container { background: white; width: 100%; max-width: 650px; border-radius: 12px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); max-height: 85vh; overflow-y: auto; position: relative; }
     .close-modal { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; transition: 0.3s; }
     .close-modal:hover { color: #333; }
     
@@ -124,6 +127,50 @@
     .data-item { background: #f8f9fa; border-left: 4px solid #0d6efd; padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
     .data-item h3 { font-size: 15px; margin-bottom: 5px; color: #222; }
     .data-item p { font-size: 13.5px; color: #666; line-height: 1.5; }
+
+    /* 📱 NEW MEDIA RESPONSIVE RULES LAYER */
+    @media (max-width: 768px) {
+        body { flex-direction: column; padding-bottom: 70px; } /* Room for bottom bar navigation */
+        
+        .sidebar {
+            width: 100%;
+            height: 65px;
+            bottom: 0;
+            top: auto;
+            left: 0;
+            flex-direction: row;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+        }
+        .sidebar-header { display: none; } /* Hide title banner on mobile viewports */
+        .sidebar-menu {
+            display: flex;
+            width: 100%;
+            padding: 0;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .sidebar-menu li { flex-grow: 1; text-align: center; }
+        .sidebar-menu li a {
+            flex-direction: column;
+            padding: 8px 0;
+            font-size: 10px;
+            justify-content: center;
+            gap: 4px;
+        }
+        .sidebar-menu li a i { margin-right: 0; font-size: 18px; width: auto; }
+        
+        .main-content {
+            margin-left: 0;
+            padding: 20px 15px;
+            width: 100%;
+        }
+        .header-panel { flex-direction: column; align-items: flex-start; gap: 8px; padding: 15px; margin-bottom: 20px; }
+        .header-panel h1 { font-size: 20px; }
+        
+        .panel-card { padding: 20px 15px; margin-bottom: 25px; }
+        .form-grid { grid-template-columns: 1fr; }
+        .form-group style { grid-column: span 1 !important; }
+    }
 </style>
 </head>
 <body>
@@ -133,12 +180,12 @@
         <h2>ICFAI Admin</h2>
     </div>
     <ul class="sidebar-menu">
-        <li><a onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-users"></i> Student Archive</a></li>
-        <li><a onclick="openGradingModal()"><i class="fas fa-edit"></i> Student Grading</a></li>
-        <li><a onclick="openOverallGradeModal()"><i class="fas fa-table"></i> Overall Grade View</a></li>
-        <li><a onclick="openLoginInfoModal()"><i class="fas fa-key"></i> Student Login Info</a></li>
-        <li><a onclick="document.getElementById('curriculum-panel').scrollIntoView({behavior: 'smooth'})"><i class="fas fa-th"></i> Syllabus Summary</a></li>
-        <li><a onclick="logout()"><i class="fas fa-sign-out-alt"></i> Exit Portal</a></li>
+        <li><a onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-users"></i> Archive</a></li>
+        <li><a onclick="openGradingModal()"><i class="fas fa-edit"></i> Grading</a></li>
+        <li><a onclick="openOverallGradeModal()"><i class="fas fa-table"></i> Grades</a></li>
+        <li><a onclick="openLoginInfoModal()"><i class="fas fa-key"></i> Passwords</a></li>
+        <li><a onclick="document.getElementById('curriculum-panel').scrollIntoView({behavior: 'smooth'})"><i class="fas fa-th"></i> Syllabus</a></li>
+        <li><a onclick="logout()"><i class="fas fa-sign-out-alt"></i> Exit</a></li>
     </ul>
 </div>
 
@@ -148,8 +195,8 @@
         <div style="font-weight: 600; color: #666;"><i class="fas fa-user-shield"></i> Root Active Session</div>
     </div>
 
-    <div class="panel-card" style="border-top: 4px solid #20c997;">
-        <div class="panel-title" style="color: #20c997;"><i class="fas fa-chart-pie"></i> NO of Students</div>
+    <div class="panel-card" style="border-top: 4px solid #0d6efd;">
+        <div class="panel-title" style="color: #0d6efd;"><i class="fas fa-chart-pie"></i> No of Students</div>
         <div class="stats-matrix" id="department-stats-target">
             <p style="color:#999; font-style:italic;">Processing registry parameters...</p>
         </div>
@@ -184,10 +231,12 @@
                 <label><i class="fas fa-calendar-alt"></i> Filter Year/Semester</label>
                 <select id="search-year" onchange="filterStudentTable()">
                     <option value="">-- All Batches --</option>
-                    <option value="1st Year">1st Year (Sem 1-2)</option>
-                    <option value="2nd Year">2nd Year (Sem 3-4)</option>
-                    <option value="3rd Year">3rd Year (Sem 5-6)</option>
-                    <option value="4th Year">4th Year (Honors)</option>
+                    <option value="1st Semester">1st Semester</option>
+                    <option value="2nd Semester">2nd Semester</option>
+                    <option value="3rd Semester">3rd Semester</option>
+                    <option value="4th Semester">4th Semester</option>
+                    <option value="5th Semester">5th Semester</option>
+                    <option value="6th Semester">6th Semester</option>
                 </select>
             </div>
             <button class="clear-search-btn" onclick="resetSearchFilters()"><i class="fas fa-undo"></i> Reset</button>
@@ -200,7 +249,7 @@
                         <th>Roll Number</th>
                         <th>Full Name</th>
                         <th>Department</th>
-                        <th>Academic Year</th>
+                        <th>Semester</th>
                         <th>CGPA Track</th>
                         <th>Mobile Target</th>
                         <th>Control Operations</th>
@@ -286,14 +335,14 @@
                         <option value="Assignment">Assignment</option>
                     </select>
                 </div>
-                <div class="form-group" style="grid-column: span 2;">
+                <div class="form-group">
                     <label>Evaluation Date</label>
                     <input type="date" id="marks-date" required>
                 </div>
             </div>
 
             <div class="form-grid">
-                <div class="form-group" style="grid-column: span 2;">
+                <div class="form-group">
                     <label>Subject Name Designation</label>
                     <select id="marks-subject" required>
                         <option value="">-- Select Department & Semester First --</option>
@@ -305,7 +354,7 @@
                 </div>
             </div>
             <div style="text-align: right; margin-top: 10px;">
-                <button type="submit" class="submit-btn" style="width: 100%; background-color:#198754;"><i class="fas fa-save"></i> Submit</button>
+                <button type="submit" class="submit-btn" style="width: 100%; background-color:#198754;"><i class="fas fa-save"></i> Submit Marks</button>
             </div>
         </form>
     </div>
@@ -373,8 +422,8 @@
                     <tr>
                         <th>Roll Number</th>
                         <th>Full Name</th>
-                        <th>Username / Handle</th>
-                        <th>Secret Password</th>
+                        <th>Username</th>
+                        <th>Password</th>
                     </tr>
                 </thead>
                 <tbody id="login-credentials-target">
@@ -397,7 +446,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
 <script>
-    // Check for unauthorized access right away when the page loads
     window.onload = function() {
         if (localStorage.getItem('adminSessionActive') !== 'true') {
             alert("Unauthorized access! Booting to login screen.");
@@ -406,436 +454,340 @@
     };
 
     const firebaseConfig = {
-  apiKey: "AIzaSyDq3sT7R3QL6oA8NTp7sBkV6uWNESzjmko",
-  authDomain: "studentinfo-7b36d.firebaseapp.com",
-  databaseURL: "https://studentinfo-7b36d-default-rtdb.firebaseio.com",
-  projectId: "studentinfo-7b36d",
-  storageBucket: "studentinfo-7b36d.firebasestorage.app",
-  messagingSenderId: "10133236572",
-  appId: "1:10133236572:web:28714298efdb380d692f99",
-  measurementId: "G-PFXBVTTHHV"
-};
+        apiKey: "AIzaSyDq3sT7R3QL6oA8NTp7sBkV6uWNESzjmko",
+        authDomain: "studentinfo-7b36d.firebaseapp.com",
+        databaseURL: "https://studentinfo-7b36d-default-rtdb.firebaseio.com",
+        projectId: "studentinfo-7b36d",
+        storageBucket: "studentinfo-7b36d.firebasestorage.app",
+        messagingSenderId: "10133236572",
+        appId: "1:10133236572:web:28714298efdb380d692f99",
+        measurementId: "G-PFXBVTTHHV"
+    };
 
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
-let globalStudentsCacheList = [];
+    let globalStudentsCacheList = [];
 
-document.addEventListener("DOMContentLoaded", function() {
+    const syllabusDataset = {
+        "BCA": ["Mathematics", "Computer Fundamentals", "C Programming", "Data Structures", "Database Management Systems", "Web Technology"],
+        "BBA": ["Principles of Management", "Business Economics", "Financial Accounting", "Marketing Management", "Human Resource Management"],
+        "BBA_HT": ["Hospitality Management", "Tourism Operations", "Front Office Basics", "Food & Beverage Control"],
+        "BCOM": ["Corporate Accounting", "Business Law", "Auditing", "Cost Accounting", "Income Tax Rules"],
+        "MBA": ["Strategic Management", "Organizational Behavior", "Corporate Finance", "Operations Research"]
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
     syncAllStudentsData();
     updateLinkedSubjectsOptions();
-    // Default current calendar timeline mapping values to 'today' inside the interface input elements
     document.getElementById('marks-date').valueAsDate = new Date();
-});
 
-function syncAllStudentsData() {
-    database.ref('students').on('value', snapshot => {
-        globalStudentsCacheList = [];
-        if(snapshot.exists()) {
-            snapshot.forEach(child => {
-                let data = child.val();
-                data.fbKey = child.key;
-                globalStudentsCacheList.push(data);
-            });
-        }
-        renderStudentTable(globalStudentsCacheList);
-        renderLoginCredentialsTable(globalStudentsCacheList);
-        calculateAndRenderDepartmentCounts(globalStudentsCacheList);
-        handleGradingHierarchyCascade();
-        handleViewHierarchyCascade();
-    });
-}
-
-function calculateAndRenderDepartmentCounts(list) {
-    const statsContainer = document.getElementById("department-stats-target");
-    if(!statsContainer) return;
-
-    if (list.length === 0) {
-        statsContainer.innerHTML = '<p style="color:#999; font-style:italic; padding:10px;">Zero students are currently registered in the database.</p>';
-        return;
-    }
-
-    let countsMap = {};
-
-    list.forEach(student => {
-        let dept = student.department || "Unassigned Dept";
-        let yearText = student.year || "Unknown Year";
+    // UPDATED FORM SUBMISSION LOGIC
+    document.getElementById('marksForm').addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        let representationTerm = "1st Year (Sem 1-2)";
-        if(yearText === "2nd Year") representationTerm = "2nd Year (Sem 3-4)";
-        if(yearText === "3rd Year") representationTerm = "3rd Year (Sem 5-6)";
-        if(yearText === "4th Year") representationTerm = "4th Year (Honors)";
+        const gradingPayload = {
+            department: document.getElementById('marks-dept').value,
+            semester: document.getElementById('marks-semester').value,
+            roll: document.getElementById('marks-roll').value,
+            type: document.getElementById('marks-type').value,
+            date: document.getElementById('marks-date').value,
+            subject: document.getElementById('marks-subject').value,
+            marks: parseInt(document.getElementById('marks-score').value, 10)
+        };
 
-        let uniqueCombinationKey = `${dept} - ${representationTerm}`;
-        countsMap[uniqueCombinationKey] = (countsMap[uniqueCombinationKey] || 0) + 1;
-    });
-
-    let html = "";
-    Object.keys(countsMap).sort().forEach(combinedKey => {
-        html += `
-            <div class="stats-badge-item">
-                <span class="label"><i class="fas fa-graduation-cap" style="color:#20c997; margin-right:6px;"></i> ${combinedKey}</span>
-                <span class="count">${countsMap[combinedKey]} Student${countsMap[combinedKey] > 1 ? 's' : ''}</span>
-            </div>
-        `;
-    });
-
-    statsContainer.innerHTML = html;
-}
-
-function renderLoginCredentialsTable(list) {
-    const target = document.getElementById("login-credentials-target");
-    if(!target) return;
-    
-    if(list.length === 0) {
-        target.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#999;">No registered student records available.</td></tr>`;
-        return;
-    }
-    
-    let html = "";
-    list.forEach(student => {
-        html += `
-            <tr>
-                <td><strong>${student.roll || student.fbKey || '---'}</strong></td>
-                <td>${student.fullName || '---'}</td>
-                <td><span style="background:#e3fbf5; color:#0f766e; padding:3px 8px; border-radius:4px; font-weight:600; font-size:12px;">${student.username || '---'}</span></td>
-                <td><code style="background:#f1f5f9; padding:4px 8px; border-radius:4px; font-weight:700; color:#e11d48;">${student.password || '---'}</code></td>
-            </tr>
-        `;
-    });
-    target.innerHTML = html;
-}
-
-function getMappedYearString(semText) {
-    if (!semText) return "";
-    if (semText === "Semester 1" || semText === "Semester 2") return "1st Year";
-    if (semText === "Semester 3" || semText === "Semester 4") return "2nd Year";
-    if (semText === "Semester 5" || semText === "Semester 6") return "3rd Year";
-    return "";
-}
-
-function handleGradingHierarchyCascade() {
-    const selectedDept = document.getElementById("marks-dept").value;
-    const selectedSem = document.getElementById("marks-semester").value;
-    const studentMenu = document.getElementById("marks-roll");
-    
-    // Remember current selected student roll before building menu structure options list
-    const previousSelectionValue = studentMenu.value;
-    
-    const operationalYear = getMappedYearString(selectedSem);
-    studentMenu.innerHTML = '<option value="">-- Select Name --</option>';
-    
-    globalStudentsCacheList.forEach(student => {
-        const checkDept = !selectedDept || student.department === selectedDept;
-        const checkYear = !selectedSem || student.year === operationalYear;
-        
-        if (checkDept && checkYear) {
-            let opt = document.createElement("option");
-            opt.value = student.roll || student.fbKey;
-            opt.textContent = `${student.fullName || student.username || 'Unnamed'} (${student.roll || student.fbKey})`;
-            studentMenu.appendChild(opt);
-        }
-    });
-
-    // Try to re-select previous student selection to prevent reset anomalies
-    if(previousSelectionValue) {
-        studentMenu.value = previousSelectionValue;
-    }
-}
-
-function handleViewHierarchyCascade() {
-    const selectedDept = document.getElementById("view-dept").value;
-    const selectedSem = document.getElementById("view-semester").value;
-    const targetMenu = document.getElementById("view-roll");
-    
-    const operationalYear = getMappedYearString(selectedSem);
-    targetMenu.innerHTML = '<option value="">-- Choose Student Name --</option>';
-    
-    globalStudentsCacheList.forEach(student => {
-        const checkDept = !selectedDept || student.department === selectedDept;
-        const checkYear = !selectedSem || student.year === operationalYear;
-        
-        if (checkDept && checkYear) {
-            let opt = document.createElement("option");
-            opt.value = student.roll || student.fbKey;
-            opt.textContent = `${student.fullName || student.username || 'Unnamed'} (${student.roll || student.fbKey})`;
-            targetMenu.appendChild(opt);
-        }
-    });
-    renderLiveStudentGrades(targetMenu.value);
-}
-
-function renderLiveStudentGrades(rollNumber) {
-    const targetDiv = document.getElementById("overall-grades-view-target");
-    if (!rollNumber) {
-        targetDiv.innerHTML = '<p style="text-align: center; color: #999; font-style: italic;">Select cascading parameters to fetch structural transcript summaries.</p>';
-        return;
-    }
-    
-    targetDiv.innerHTML = `<p style="text-align: center; color: #0d6efd;"><i class="fas fa-spinner fa-spin"></i> Loading recorded mark matrices...</p>`;
-    
-    database.ref('marksheetData').once('value', snapshot => {
-        let itemsHtml = "";
-        let entriesFound = false;
-        
-        if (snapshot.exists()) {
-            snapshot.forEach(child => {
-                const data = child.val();
-                if (data.roll === rollNumber) {
-                    entriesFound = true;
-                    itemsHtml += `
-                        <div class="data-item">
-                            <h3>${data.subject || 'Unknown Syllabus Track'} <span style="font-size: 11px; padding: 2px 6px; background:#e2e8f0; color:#475569; border-radius:4px; margin-left: 8px;">${data.type || 'Exam'}</span></h3>
-                            <p>Assigned Reference Pathway: <strong>${data.semester || 'Unspecified Term'} (${data.department || 'General'})</strong></p>
-                            <p>Date Tested: <span>${data.date || '---'}</span></p>
-                            <p>Evaluated Score Metrics: <strong style="color: #0d6efd;">${data.marks} / 100</strong></p>
-                        </div>
-                    `;
-                }
-            });
-        }
-        
-        targetDiv.innerHTML = entriesFound ? itemsHtml : `<p style="text-align: center; color: #dc3545; font-weight: 600;"><i class="fas fa-exclamation-circle"></i> No academic evaluations found matching this active target identifier.</p>`;
-    });
-}
-
-function renderStudentTable(list) {
-    const target = document.getElementById("student-records-target");
-    if(list.length === 0) {
-        target.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#333;">No records found matching current search definitions.</td></tr>`;
-        return;
-    }
-
-    let html = "";
-    list.forEach(s => {
-        html += `
-            <tr>
-                <td><strong>${s.roll || s.fbKey}</strong></td>
-                <td>${s.fullName || '---'}</td>
-                <td><span style="background:#e7f1ff; color:#0d6efd; padding:3px 8px; border-radius:4px; font-weight:600; font-size:12px;">${s.department || '---'}</span></td>
-                <td>${s.year || '---'}</td>
-                <td><strong>${s.cgpa || '0.00'}</strong></td>
-                <td>${s.mobile || '---'}</td>
-                <td><button class="action-btn" onclick="eraseStudent('${s.fbKey}')"><i class="fas fa-trash"></i> Drop</button></td>
-            </tr>
-        `;
-    });
-    target.innerHTML = html;
-}
-
-function filterStudentTable() {
-    let queryRoll = document.getElementById("search-roll").value.trim().toLowerCase();
-    let queryDept = document.getElementById("search-dept").value;
-    let queryYear = document.getElementById("search-year").value;
-
-    let filtered = globalStudentsCacheList.filter(student => {
-        let currentRoll = (student.roll || student.fbKey || "").toLowerCase();
-        let currentDept = student.department || "";
-        let currentYear = student.year || "";
-
-        let matchRoll = queryRoll === "" || currentRoll.includes(queryRoll);
-        let matchDept = queryDept === "" || currentDept === queryDept;
-        let matchYear = queryYear === "" || currentYear === queryYear;
-
-        return matchRoll && matchDept && matchYear;
-    });
-
-    renderStudentTable(filtered);
-}
-
-function resetSearchFilters() {
-    document.getElementById("search-roll").value = "";
-    document.getElementById("search-dept").value = "";
-    document.getElementById("search-year").value = "";
-    renderStudentTable(globalStudentsCacheList);
-}
-
-function eraseStudent(roll) {
-    if(confirm(`Are you certain you want to purge student roll identifier [ ${roll} ] completely from the root tracking architecture?`)) {
-        database.ref('students/' + roll).remove()
-        .then(() => alert("Student profile purged successfully."))
-        .catch(err => alert("Operation error: " + err.message));
-    }
-}
-
-const curriculumData = {
-    "BCA": {
-        title: "BCA (Bachelor of Computer Applications)",
-        content: `<div class="subject-pill">Mathematics-I</div><div class="subject-pill">Computer Fundamentals</div><div class="subject-pill">C Programming</div><div class="subject-pill">Digital Electronics</div><div class="subject-pill">Data Structures</div><div class="subject-pill">OOPs with C++</div><div class="subject-pill">Software Engineering</div><div class="subject-pill">Operating Systems</div><div class="subject-pill">Java Programming</div><div class="subject-pill">Computer Networks</div><div class="subject-pill">Python Programming</div><div class="subject-pill">Web Technology</div>`
-    },
-    "BBA": {
-        title: "BBA (Bachelor of Business Administration)",
-        content: `<div class="subject-pill">Principles of Management</div><div class="subject-pill">Business Economics</div><div class="subject-pill">Financial Accounting</div><div class="subject-pill">Organizational Behavior</div><div class="subject-pill">Marketing Management</div><div class="subject-pill">Human Resource Management</div>`
-    },
-    "BBA_HT": {
-        title: "BBA (Hospitality & Tourism Management)",
-        content: `<div class="subject-pill">Introduction to Hospitality</div><div class="subject-pill">Tourism Principles</div><div class="subject-pill">Front Office Operations</div><div class="subject-pill">Food & Beverage Management</div>`
-    },
-    "BA": {
-        title: "BA (Bachelor of Arts Honors)",
-        content: `<div class="subject-pill">English Literature</div><div class="subject-pill">Political Science Foundation</div><div class="subject-pill">Sociology Structures</div><div class="subject-pill">History Foundations</div>`
-    },
-    "BSW": {
-        title: "BSW (Bachelor of Social Work)",
-        content: `<div class="subject-pill">Introduction to Social Work</div><div class="subject-pill">Social Problems in India</div><div class="subject-pill">Fieldwork Training</div><div class="subject-pill">Human Growth Dynamics</div>`
-    },
-    "BCOM": {
-        title: "B.Com (Bachelor of Commerce)",
-        content: `<div class="subject-pill">Corporate Accounting</div><div class="subject-pill">Business Laws</div><div class="subject-pill">Income Tax Law & Practice</div><div class="subject-pill">Auditing Procedures</div>`
-    },
-    "MBA": {
-        title: "MBA (Master of Business Administration Master Track)",
-        content: `<div class="subject-pill">Strategic Management</div><div class="subject-pill">Advanced Corporate Finance</div><div class="subject-pill">Consumer Behavior Models</div><div class="subject-pill">Operations Metrics</div>`
-    },
-    "MCOM": {
-        title: "M.Com (Master of Commerce Framework)",
-        content: `<div class="subject-pill">Managerial Economics</div><div class="subject-pill">Statistical Analysis Layout</div><div class="subject-pill">Accounting Theory Structures</div>`
-    },
-    "MSW": {
-        title: "MSW (Master of Social Work Core)",
-        content: `<div class="subject-pill">Community Organization</div><div class="subject-pill">Social Work Research Methods</div><div class="subject-pill">Social Policy Formations</div>`
-    },
-    "MA": {
-        title: "MA (Master of Arts Framework Model)",
-        content: `<div class="subject-pill">Advanced English Literature</div><div class="subject-pill">Political Theory</div><div class="subject-pill">Sociology Analysis</div>`
-    },
-    "DOC": {
-        title: "Doctoral Programs (Ph.D.)",
-        content: `<div class="subject-pill">Advanced Research</div><div class="subject-pill">Research Methodology</div><div class="subject-pill">Thesis/Dissertation</div><div class="subject-pill">Publications</div><div class="subject-pill">Specialized Study in Chosen Field</div>`
-    }
-};
-
-function updateLinkedSubjectsOptions() {
-    const selectedDept = document.getElementById("marks-dept").value;
-    const selectedSemText = document.getElementById("marks-semester").value; 
-    const subjectSelectElement = document.getElementById("marks-subject");
-    
-    if (!selectedDept) {
-        subjectSelectElement.innerHTML = '<option value="">-- Select Department & Semester First --</option>';
-        return;
-    }
-    
-    const semNumber = parseInt(selectedSemText.replace(/[^0-9]/g, '')) || 1;
-    subjectSelectElement.innerHTML = "";
-    
-    const departmentSyllabus = curriculumData[selectedDept];
-    if (departmentSyllabus) {
-        let parserContainer = document.createElement("div");
-        parserContainer.innerHTML = departmentSyllabus.content;
-        let foundPills = Array.from(parserContainer.querySelectorAll(".subject-pill"));
-        
-        if(foundPills.length > 0) {
-            let optionsCounter = 0;
-            foundPills.forEach((pillElement, pillIndex) => {
-                let assignedSem = (pillIndex % 6) + 1;
-                if (assignedSem === semNumber) {
-                    let subjectTitle = pillElement.innerText.trim();
-                    let optElement = document.createElement("option");
-                    optElement.value = subjectTitle;
-                    optElement.innerText = subjectTitle;
-                    subjectSelectElement.appendChild(optElement);
-                    optionsCounter++;
-                }
-            });
+        database.ref('marksheetData').push(gradingPayload)
+        .then(() => {
+            alert(`Marks logged successfully for ${gradingPayload.subject}!`);
             
-            if(optionsCounter === 0) {
-                let fallbackOpt = document.createElement("option");
-                fallbackOpt.value = "General Elective Course";
-                fallbackOpt.innerText = "General Elective Course (No explicit core matches)";
-                subjectSelectElement.appendChild(fallbackOpt);
+            // CRITICAL FIX: Do NOT close the modal, do NOT reset the whole form.
+            // Only clear out the subject selection and score input fields.
+            document.getElementById('marks-subject').value = "";
+            document.getElementById('marks-score').value = "";
+            
+            // Focus back on the subject dropdown automatically for fast data entry
+            document.getElementById('marks-subject').focus();
+        })
+        .catch(err => alert("Write operations rejected: " + err.message));
+    });
+});
+    function syncAllStudentsData() {
+        database.ref('students').on('value', snapshot => {
+            globalStudentsCacheList = [];
+            if(snapshot.exists()) {
+                snapshot.forEach(child => {
+                    let data = child.val();
+                    data.fbKey = child.key;
+                    globalStudentsCacheList.push(data);
+                });
             }
-        } else {
-            let placeholderOpt = document.createElement("option");
-            placeholderOpt.value = "Core Curriculum Subject";
-            placeholderOpt.innerText = "Core Curriculum Subject";
-            subjectSelectElement.appendChild(placeholderOpt);
-        }
-    }
-}
-
-document.getElementById("marksForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    
-    // Grabbing the values of our selection elements
-    const roll = document.getElementById("marks-roll").value.trim();
-    const dept = document.getElementById("marks-dept").value;
-    const semester = document.getElementById("marks-semester").value;
-    const subject = document.getElementById("marks-subject").value;
-    const score = document.getElementById("marks-score").value;
-    const type = document.getElementById("marks-type").value;
-    const date = document.getElementById("marks-date").value;
-
-    if (!roll) {
-        alert("Please select a valid registered student configuration name map.");
-        return;
+            renderStudentTable(globalStudentsCacheList);
+            renderLoginCredentialsTable(globalStudentsCacheList);
+            calculateAndRenderDepartmentCounts(globalStudentsCacheList);
+            handleGradingHierarchyCascade();
+            handleViewHierarchyCascade();
+        });
     }
 
-    database.ref('students/' + roll).once('value').then(snapshot => {
-        if(!snapshot.exists()) {
-            alert("Transactional Error: The input student roll path does not exist inside the live registry mapping.");
+    function calculateAndRenderDepartmentCounts(list) {
+        const statsContainer = document.getElementById("department-stats-target");
+        if(!statsContainer) return;
+
+        if (list.length === 0) {
+            statsContainer.innerHTML = '<p style="color:#999; font-style:italic; padding:10px;">Zero students are currently registered in the database.</p>';
             return;
         }
 
-        const markRecord = {
-            roll: roll,
-            department: dept,
-            semester: semester,
-            subject: subject,
-            marks: parseInt(score),
-            type: type,
-            date: date
-        };
-
-        database.ref('marksheetData').push().set(markRecord)
-        .then(() => {
-            alert(`Grade uploaded successfully for ${subject}!`);
+        let countsMap = {};
+        list.forEach(student => {
+            let dept = student.department || "Unassigned Dept";
+            let termText = student.year || student.semester || "Unknown Track";
             
-            // INTENTIONAL CHANGE: Do not reset the full form or close the modal window.
-            // Simply blank out the score and subject value selection so you can keep grading.
-            document.getElementById("marks-score").value = "";
-            document.getElementById("marks-subject").selectedIndex = 0;
+            if (termText === "1st Year") termText = "1st Semester";
+            else if (termText === "2nd Year") termText = "3rd Semester";
+            else if (termText === "3rd Year") termText = "5th Semester";
+
+            let uniqueCombinationKey = `${dept} - ${termText}`;
+            countsMap[uniqueCombinationKey] = (countsMap[uniqueCombinationKey] || 0) + 1;
+        });
+
+        let html = "";
+        Object.keys(countsMap).sort().forEach(combinedKey => {
+            html += `
+                <div class="stats-badge-item">
+                    <span class="label"><i class="fas fa-graduation-cap" style="color:#20c997; margin-right:6px;"></i> ${combinedKey}</span>
+                    <span class="count" style="background-color: #0d6efd;">${countsMap[combinedKey]} Student${countsMap[combinedKey] > 1 ? 's' : ''}</span>
+                </div>
+            `;
+        });
+        statsContainer.innerHTML = html;
+    }
+
+    function renderLoginCredentialsTable(list) {
+        const target = document.getElementById("login-credentials-target");
+        if(!target) return;
+        
+        if(list.length === 0) {
+            target.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#999;">No registered student records available.</td></tr>`;
+            return;
+        }
+        
+        let html = "";
+        list.forEach(student => {
+            html += `
+                <tr>
+                    <td><strong>${student.roll || student.fbKey || '---'}</strong></td>
+                    <td>${student.fullName || '---'}</td>
+                    <td><span style="background:#e3fbf5; color:#0f766e; padding:3px 8px; border-radius:4px; font-weight:600; font-size:12px;">${student.username || '---'}</span></td>
+                    <td><code style="background:#f1f5f9; padding:4px 8px; border-radius:4px; font-weight:700; color:#e11d48;">${student.password || '---'}</code></td>
+                </tr>
+            `;
+        });
+        target.innerHTML = html;
+    }
+
+    function getMappedYearString(semText) {
+        if (!semText) return "";
+        if (semText.includes("1") || semText.includes("2")) return "1st Semester";
+        if (semText.includes("3") || semText.includes("4")) return "3rd Semester";
+        if (semText.includes("5") || semText.includes("6")) return "5th Semester";
+        return semText;
+    }
+
+    function handleGradingHierarchyCascade() {
+        const selectedDept = document.getElementById("marks-dept").value;
+        const selectedSem = document.getElementById("marks-semester").value;
+        const studentMenu = document.getElementById("marks-roll");
+        const previousSelectionValue = studentMenu.value;
+        
+        studentMenu.innerHTML = '<option value="">-- Select Name --</option>';
+        
+        globalStudentsCacheList.forEach(student => {
+            const checkDept = !selectedDept || student.department === selectedDept;
             
-            // Optionally update the linked dropdown selection lists to maintain data persistence
-            handleGradingHierarchyCascade();
-        })
-        .catch(err => alert("Database transmission error: " + err.message));
-    });
-});
+            let checkSemesterMatch = true;
+            if(selectedSem) {
+                let normalizedStudentTerm = getMappedYearString(student.year || student.semester || "");
+                let normalizedSelectedTerm = getMappedYearString(selectedSem);
+                checkSemesterMatch = normalizedStudentTerm.toLowerCase().includes(normalizedSelectedTerm.toLowerCase().replace("semester", "").trim());
+            }
+            
+            if (checkDept && checkSemesterMatch) {
+                let opt = document.createElement("option");
+                opt.value = student.roll || student.fbKey;
+                opt.textContent = `${student.fullName || student.username || 'Unnamed'} (${student.roll || student.fbKey})`;
+                studentMenu.appendChild(opt);
+            }
+        });
 
-function openGradingModal() { 
-    document.getElementById("gradingModal").style.display = "flex"; 
-    handleGradingHierarchyCascade();
-    updateLinkedSubjectsOptions(); 
-    // Always default input timestamp parameter mappings to today's date upon launch
-    document.getElementById('marks-date').valueAsDate = new Date();
-}
-function closeGradingModal() { document.getElementById("gradingModal").style.display = "none"; }
+        if(previousSelectionValue) {
+            studentMenu.value = previousSelectionValue;
+        }
+    }
 
-function openOverallGradeModal() {
-    document.getElementById("overallGradeModal").style.display = "flex";
-    handleViewHierarchyCascade();
-}
-function closeOverallGradeModal() { document.getElementById("overallGradeModal").style.display = "none"; }
+    function updateLinkedSubjectsOptions() {
+        const dept = document.getElementById("marks-dept").value;
+        const subjectMenu = document.getElementById("marks-subject");
+        subjectMenu.innerHTML = '<option value="">-- Select Subject Designation --</option>';
+        
+        const courses = syllabusDataset[dept] || ["Theory Core Component", "Practical Lab Assignment Track"];
+        courses.forEach(sub => {
+            let opt = document.createElement("option");
+            opt.value = sub;
+            opt.textContent = sub;
+            subjectMenu.appendChild(opt);
+        });
+    }
 
-function openLoginInfoModal() {
-    document.getElementById("loginInfoModal").style.display = "flex";
-    renderLoginCredentialsTable(globalStudentsCacheList);
-}
-function closeLoginInfoModal() { document.getElementById("loginInfoModal").style.display = "none"; }
+    function handleViewHierarchyCascade() {
+        const selectedDept = document.getElementById("view-dept").value;
+        const selectedSem = document.getElementById("view-semester").value;
+        const targetMenu = document.getElementById("view-roll");
+        
+        targetMenu.innerHTML = '<option value="">-- Choose Student Name --</option>';
+        
+        globalStudentsCacheList.forEach(student => {
+            const checkDept = !selectedDept || student.department === selectedDept;
+            
+            let studentTerm = (student.year || student.semester || "").toLowerCase();
+            let checkYear = !selectedSem || studentTerm.includes(selectedSem.toLowerCase().replace("semester", "").trim());
+            
+            if (checkDept && checkYear) {
+                let opt = document.createElement("option");
+                opt.value = student.roll || student.fbKey;
+                opt.textContent = `${student.fullName || student.username || 'Unnamed'} (${student.roll || student.fbKey})`;
+                targetMenu.appendChild(opt);
+            }
+        });
+        renderLiveStudentGrades(targetMenu.value);
+    }
 
-function openMatrixModal(key) {
-    const data = curriculumData[key];
-    if(data) {
-        document.getElementById("matrixModalTitle").innerHTML = `<i class="fas fa-book-open"></i> Matrix Summary: ${data.title}`;
-        document.getElementById("matrixModalBody").innerHTML = data.content;
+    function renderLiveStudentGrades(rollNumber) {
+        const targetDiv = document.getElementById("overall-grades-view-target");
+        if (!rollNumber) {
+            targetDiv.innerHTML = '<p style="text-align: center; color: #999; font-style: italic;">Select cascading parameters to fetch structural transcript summaries.</p>';
+            return;
+        }
+        
+        targetDiv.innerHTML = `<p style="text-align: center; color: #0d6efd;"><i class="fas fa-spinner fa-spin"></i> Loading recorded mark matrices...</p>`;
+        
+        database.ref('marksheetData').once('value', snapshot => {
+            let itemsHtml = "";
+            let entriesFound = false;
+            
+            if (snapshot.exists()) {
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    if (data.roll === rollNumber) {
+                        entriesFound = true;
+                        itemsHtml += `
+                            <div class="data-item">
+                                <h3>${data.subject || 'Unknown Syllabus Track'} <span style="font-size: 11px; padding: 2px 6px; background:#e2e8f0; color:#475569; border-radius:4px; margin-left: 8px;">${data.type || 'Exam'}</span></h3>
+                                <p>Assigned Reference Pathway: <strong>${data.semester || 'Unspecified Term'} (${data.department || 'General'})</strong></p>
+                                <p>Date Tested: <span>${data.date || '---'}</span></p>
+                                <p>Evaluated Score Metrics: <strong style="color: #0d6efd;">${data.marks} / 100</strong></p>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            targetDiv.innerHTML = entriesFound ? itemsHtml : `<p style="text-align: center; color: #dc3545; font-weight: 600;"><i class="fas fa-exclamation-circle"></i> No academic evaluations found matching this active target identifier.</p>`;
+        });
+    }
+
+    function renderStudentTable(list) {
+        const target = document.getElementById("student-records-target");
+        if(list.length === 0) {
+            target.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#333;">No records found matching current search definitions.</td></tr>`;
+            return;
+        }
+
+        let html = "";
+        list.forEach(s => {
+            html += `
+                <tr>
+                    <td><strong>${s.roll || s.fbKey}</strong></td>
+                    <td>${s.fullName || '---'}</td>
+                    <td><span style="background:#e7f1ff; color:#0d6efd; padding:3px 8px; border-radius:4px; font-weight:600; font-size:12px;">${s.department || '---'}</span></td>
+                    <td>${s.year || s.semester || '---'}</td>
+                    <td><strong>${s.cgpa || '0.00'}</strong></td>
+                    <td>${s.mobile || '---'}</td>
+                    <td><button class="action-btn" onclick="eraseStudent('${s.fbKey}')"><i class="fas fa-trash"></i> Drop</button></td>
+                </tr>
+            `;
+        });
+        target.innerHTML = html;
+    }
+
+    function filterStudentTable() {
+        let queryRoll = document.getElementById("search-roll").value.trim().toLowerCase();
+        let queryDept = document.getElementById("search-dept").value;
+        let queryYear = document.getElementById("search-year").value.toLowerCase().replace("semester", "").trim();
+
+        let filtered = globalStudentsCacheList.filter(student => {
+            let currentRoll = (student.roll || student.fbKey || "").toLowerCase();
+            let currentDept = student.department || "";
+            let currentYear = (student.year || student.semester || "").toLowerCase();
+
+            let matchRoll = queryRoll === "" || currentRoll.includes(queryRoll);
+            let matchDept = queryDept === "" || currentDept === queryDept;
+            let matchYear = queryYear === "" || currentYear.includes(queryYear);
+
+            return matchRoll && matchDept && matchYear;
+        });
+        renderStudentTable(filtered);
+    }
+
+    function resetSearchFilters() {
+        document.getElementById("search-roll").value = "";
+        document.getElementById("search-dept").value = "";
+        document.getElementById("search-year").value = "";
+        renderStudentTable(globalStudentsCacheList);
+    }
+
+    function eraseStudent(roll) {
+        if(confirm(`Are you certain you want to purge student roll identifier [ ${roll} ] completely from the root tracking architecture?`)) {
+            database.ref('students/' + roll).remove()
+            .then(() => alert("Student profile unlinked successfully."))
+            .catch(err => alert("Error unlinking record: " + err.message));
+        }
+    }
+
+    function openGradingModal() { document.getElementById("gradingModal").style.display = "flex"; }
+    function closeGradingModal() { document.getElementById("gradingModal").style.display = "none"; }
+    
+    function openOverallGradeModal() { document.getElementById("overallGradeModal").style.display = "flex"; }
+    function closeOverallGradeModal() { document.getElementById("overallGradeModal").style.display = "none"; }
+    
+    function openLoginInfoModal() { document.getElementById("loginInfoModal").style.display = "flex"; }
+    function closeLoginInfoModal() { document.getElementById("loginInfoModal").style.display = "none"; }
+
+    function openMatrixModal(dept) {
+        document.getElementById("matrixModalTitle").innerText = `${dept} Academic Syllabus Modules`;
+        const container = document.getElementById("matrixModalBody");
+        container.innerHTML = "";
+        
+        const courses = syllabusDataset[dept] || ["General Syllabus Parameters Not Formally Mapped"];
+        courses.forEach(course => {
+            const span = document.createElement("span");
+            span.className = "subject-pill";
+            span.innerText = course;
+            container.appendChild(span);
+        });
         document.getElementById("matrixModal").style.display = "flex";
     }
-}
+    function closeMatrixModal() { document.getElementById("matrixModal").style.display = "none"; }
 
-// Logic mapper methods
-function closeMatrixModal() { document.getElementById("matrixModal").style.display = "none"; }
-function closeModalOnOverlay(e, element) { if(e.target === element) element.style.display = "none"; }
-function logout() { localStorage.clear(); window.location.href = "index.html"; }
+    function closeModalOnOverlay(event, element) {
+        if (event.target === element) {
+            element.style.display = "none";
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('adminSessionActive');
+        window.location.href = "./index.html";
+    }
 </script>
 </body>
 </html>
