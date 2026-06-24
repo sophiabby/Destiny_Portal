@@ -6,27 +6,30 @@
 <title>Student Dashboard - ICFAI SIS</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Arial, sans-serif; }
+    /* Reset & CSS Custom Properties */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
     
-    html {
-        min-height: 100vh;
+    :root {
+        --primary-blue: #0568be;
+        --hover-blue: rgba(255, 255, 255, 0.1);
+        --text-dark: #333;
+        --text-muted: #777;
+        --bg-panel: rgba(255, 255, 255, 0.96);
+        --success-green: #28a745;
     }
+
+    html, body { min-height: 100vh; }
     
     body { 
         display: flex; 
-        min-height: 100vh; 
         background: transparent; 
         position: relative;
     }
 
-    /* Renders your background picture completely raw and untouched */
     body::before {
         content: "";
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0; width: 100%; height: 100%;
         z-index: -1;
         background-image: url('ICFAIimage.png');
         background-size: cover;
@@ -34,157 +37,164 @@
         background-repeat: no-repeat;
     }
     
-    .sidebar { width: 260px; background: #0568be; color: white; display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0; box-shadow: 2px 0 10px rgba(0,0,0,0.1); z-index: 10; }
+    /* Sidebar Navigation */
+    .sidebar { 
+        width: 260px; 
+        background: var(--primary-blue); 
+        color: white; 
+        display: flex; 
+        flex-direction: column; 
+        position: fixed; 
+        height: 100vh; 
+        left: 0; top: 0; 
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1); 
+        z-index: 10; 
+    }
     .sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .sidebar-header h2 { font-size: 20px; font-weight: 600; margin-bottom: 5px; }
-    .sidebar-menu { list-style: none; padding: 20px 0; flex-grow: 1; }
-    .sidebar-menu li a { display: flex; align-items: center; padding: 15px 25px; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 15px; transition: 0.3s; cursor: pointer; }
-    .sidebar-menu li a i { margin-right: 15px; width: 20px; text-align: center; font-size: 16px; }
-    .sidebar-menu li a:hover { background: rgba(255,255,255,0.1); color: white; }
+    .sidebar-header p { font-size: 13px; opacity: 0.8; }
     
+    .sidebar-menu { list-style: none; padding: 20px 0; flex-grow: 1; }
+    .sidebar-menu li button { 
+        width: 100%; background: none; border: none; text-align: left;
+        display: flex; align-items: center; padding: 15px 25px; 
+        color: rgba(255,255,255,0.8); font-size: 15px; 
+        transition: 0.3s; cursor: pointer; 
+    }
+    .sidebar-menu li button i { margin-right: 15px; width: 20px; text-align: center; font-size: 16px; }
+    .sidebar-menu li button:hover { background: var(--hover-blue); color: white; }
+    
+    /* Content Layout */
     .main-content { margin-left: 260px; flex-grow: 1; padding: 40px; position: relative; z-index: 1; }
     
-    /* Adjusted panels to 0.96 opacity so text remains perfectly legible over raw image details */
-    .header-panel { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(2px); padding: 20px 30px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.03); margin-bottom: 30px; }
-    .header-panel h1 { font-size: 24px; color: #333; }
+    .header-panel { 
+        display: flex; justify-content: space-between; align-items: center; 
+        background: var(--bg-panel); backdrop-filter: blur(2px); 
+        padding: 20px 30px; border-radius: 12px; 
+        box-shadow: 0 2px 12px rgba(0,0,0,0.03); margin-bottom: 30px; 
+    }
+    .header-panel h1 { font-size: 24px; color: var(--text-dark); }
+    .status-container { font-weight: 600; color: #555; }
+    .status-online { color: var(--success-green); }
     
     .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-    .card { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(2px); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); padding: 25px; transition: 0.3s; border-top: 4px solid #0568be; }
+    .card { background: var(--bg-panel); backdrop-filter: blur(2px); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); padding: 25px; transition: 0.3s; border-top: 4px solid var(--primary-blue); }
     .card-title { font-size: 17px; font-weight: 600; color: #444; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-    .info-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
-    .info-item span.label { color: #777; font-weight: 500; }
-    .info-item span.val { color: #111; font-weight: 600; text-align: right; }
     
+    .info-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+    .info-item span.label { color: var(--text-muted); font-weight: 500; }
+    .info-item span.val { color: #111; font-weight: 600; text-align: right; }
+    .cgpa-highlight { color: var(--primary-blue); font-size: 16px; }
+    
+    /* Modals */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
     .modal-container { background: white; width: 100%; max-width: 650px; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; position: relative; }
-    .close-modal { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; transition: 0.3s; }
-    .close-modal:hover { color: #333; }
-    .popup-title { margin-bottom: 20px; font-size: 20px; color: #0568be; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #0568be; padding-bottom: 10px; }
-    .data-item { background: #f8f9fa; border-left: 4px solid #0568be; padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
+    .close-modal { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; background: none; border: none; transition: 0.3s; }
+    .close-modal:hover { color: var(--text-dark); }
+    
+    .popup-title { margin-bottom: 20px; font-size: 20px; color: var(--primary-blue); display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 10px; }
+    .data-item { background: #f8f9fa; border-left: 4px solid var(--primary-blue); padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
     .data-item h3 { font-size: 15px; margin-bottom: 5px; color: #222; }
     .data-item p { font-size: 13.5px; color: #666; line-height: 1.5; }
     
-    /* Semester Layout Configurations */
-    .semester-section { background: #f8f9fa; border-radius: 8px; padding: 14px; margin-bottom: 14px; border-left: 4px solid #0568be; }
+    /* Utilities */
+    .text-center-muted { text-align: center; color: #999; }
+    .error-text { color: red; text-align: center; }
+    
+    /* Semesters Layout */
+    .semester-section { background: #f8f9fa; border-radius: 8px; padding: 14px; margin-bottom: 14px; border-left: 4px solid var(--primary-blue); }
     .semester-section h3 { font-size: 15px; color: #222; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 600; }
 
+    /* Forms */
     .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .edit-group { margin-bottom: 15px; }
     .edit-group.full { grid-column: span 2; }
     .edit-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; }
     .edit-group input, .edit-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-    .save-btn { width: 100%; padding: 12px; background: #28a745; border: none; color: white; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-    .save-btn:hover { background: #218838; }
     
-    .subject-pill { display: inline-block; background: #e7f1ff; color: #0568be; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; margin: 3px 4px 3px 0; border: 1px solid rgba(5,104,190,0.15); }
-/* Mobile Optimization for Dashboard */
-@media screen and (max-width: 768px) {
-    body {
-        flex-direction: column; /* Stack sidebar on top or hide it */
-    }
+    .save-btn { width: 100%; padding: 12px; background: var(--success-green); border: none; color: white; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+    .save-btn:hover { background: #218838; }
+    .subject-pill { display: inline-block; background: #e7f1ff; color: var(--primary-blue); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; margin: 3px 4px 3px 0; border: 1px solid rgba(5,104,190,0.15); }
 
-    .sidebar {
-        width: 100% !important;
-        min-height: auto !important;
-        position: relative;
-        padding: 15px !important;
+    /* Responsive Mobile Optimization (Fixed Selections) */
+    @media screen and (max-width: 768px) {
+        body { flex-direction: column; }
+        .sidebar { width: 100% !important; min-height: auto !important; position: relative; padding: 15px !important; height: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        .sidebar-menu { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px 0 0 0; }
+        .sidebar-menu li { flex: 1 1 45%; }
+        .sidebar-menu li button { justify-content: center; padding: 12px 10px !important; font-size: 14px; border-radius: 6px; background: rgba(255,255,255,0.05); }
+        .sidebar-menu li button i { margin-right: 8px; }
+        
+        .main-content { margin-left: 0 !important; padding: 20px !important; width: 100%; }
+        .header-panel { flex-direction: column; gap: 10px; text-align: center; padding: 15px; }
+        .grid-container { grid-template-columns: 1fr !important; gap: 15px !important; }
+        .edit-grid { grid-template-columns: 1fr; }
+        .edit-group.full { grid-column: auto; }
+        .modal-container { padding: 20px; }
     }
-
-    .sidebar .nav-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 15px !important;
-    }
-
-    .sidebar .nav-links a {
-        flex: 1 1 40%; /* Grid-like navigation buttons for fingers */
-        margin: 0 !important;
-        justify-content: center;
-        padding: 10px !important;
-        font-size: 14px;
-    }
-
-    .main-content {
-        padding: 15px !important;
-        width: 100%;
-    }
-
-    /* Wrap tables to prevent text overflow layout breaks */
-    .table-container, table {
-        display: block;
-        width: 100%;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    /* Adjust main grid summary blocks */
-    .dashboard-grid {
-        grid-template-columns: 1fr !important; /* Single column layout */
-        gap: 15px !important;
-    }
-}
 </style>
 </head>
 <body>
 
-<div class="sidebar">
+<nav class="sidebar" aria-label="Main Navigation">
     <div class="sidebar-header">
         <h2>ICFAI SIS</h2>
         <p>University Dashboard</p>
     </div>
     <ul class="sidebar-menu">
-        <li><a onclick="openModal('modal-info-view')"><i class="fas fa-id-card"></i> Profile Summary</a></li>
-        <li><a onclick="openModal('modal-info-changes')"><i class="fas fa-user-edit"></i> Modify Personal Data</a></li>
-        <li><a onclick="openModal('modal-marks')"><i class="fas fa-poll-h"></i> Internal Marks</a></li>
-        <li><a onclick="openModal('modal-syllabus')"><i class="fas fa-book"></i> Syllabus</a></li>
-        <li><a onclick="logout()"><i class="fas fa-sign-out-alt"></i> Exit Session</a></li>
+        <li><button onclick="openModal('modal-info-view')"><i class="fas fa-id-card"></i> Profile Summary</button></li>
+        <li><button onclick="openModal('modal-info-changes')"><i class="fas fa-user-edit"></i> Modify Data</button></li>
+        <li><button onclick="openModal('modal-marks')"><i class="fas fa-poll-h"></i> Internal Marks</button></li>
+        <li><button onclick="openModal('modal-syllabus')"><i class="fas fa-book"></i> Syllabus</button></li>
+        <li><button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Exit Session</button></li>
     </ul>
-</div>
+</nav>
 
-<div class="main-content">
-    <div class="header-panel">
+<main class="main-content">
+    <header class="header-panel">
         <h1>Welcome Back, <span id="dash-student-name">Loading...</span></h1>
-        <div style="font-weight: 600; color: #555;">Status: <span style="color:#28a745;"><i class="fas fa-circle"></i> Connected</span></div>
-    </div>
+        <div class="status-container">Status: <span class="status-online"><i class="fas fa-circle"></i> Connected</span></div>
+    </header>
 
     <div class="grid-container">
-        <div class="card">
-            <div class="card-title"><i class="fas fa-graduation-cap"></i> Program Snapshot</div>
+        <section class="card" aria-labelledby="snap-title">
+            <div id="snap-title" class="card-title"><i class="fas fa-graduation-cap"></i> Program Snapshot</div>
             <div class="info-item"><span class="label">Roll Number:</span><span class="val" id="card-roll">---</span></div>
             <div class="info-item"><span class="label">Department:</span><span class="val" id="card-dept">---</span></div>
             <div class="info-item"><span class="label">Academic Year:</span><span class="val" id="card-year">---</span></div>
-            <div class="info-item"><span class="label">Cumulative CGPA:</span><span class="val" id="card-cgpa" style="color:#0568be; font-size:16px;">0.00</span></div>
-        </div>
-        <div class="card">
-            <div class="card-title"><i class="fas fa-university"></i> Quick Notifications</div>
+            <div class="info-item"><span class="label">Cumulative CGPA:</span><span class="val" id="card-cgpa" class="cgpa-highlight">0.00</span></div>
+        </section>
+        
+        <section class="card" aria-labelledby="notif-title">
+            <div id="notif-title" class="card-title"><i class="fas fa-university"></i> Quick Notifications</div>
             <div class="data-item">
                 <h3>Semester Registrations Open</h3>
                 <p>Ensure administrative tuition balances clear preceding testing cycles.</p>
             </div>
-        </div>
+        </section>
     </div>
-</div>
+</main>
 
 <div id="modal-info-view" class="modal-overlay" onclick="closeModalOnOverlay(event, this)">
     <div class="modal-container">
-        <span class="close-modal" onclick="closeModal('modal-info-view')">&times;</span>
-        <h2 class="popup-title"><i class="fas fa-id-badge"></i> Certified Enrollment Archive</h2>
+        <button class="close-modal" onclick="closeModal('modal-info-view')">&times;</button>
+        <h2 class="popup-title"><i class="fas fa-id-badge"></i> Profile Details</h2>
         <div id="profile-details-target"></div>
     </div>
 </div>
 
 <div id="modal-syllabus" class="modal-overlay" onclick="closeModalOnOverlay(event, this)">
     <div class="modal-container">
-        <span class="close-modal" onclick="closeModal('modal-syllabus')">&times;</span>
-        <h2 class="popup-title"><i class="fas fa-book"></i> Focus Program Syllabus (<span id="syllabus-dept-title">General</span>)</h2>
+        <button class="close-modal" onclick="closeModal('modal-syllabus')">&times;</button>
+        <h2 class="popup-title"><i class="fas fa-book"></i> Curriculum Syllabus (<span id="syllabus-dept-title">General</span>)</h2>
         <div id="syllabus-content"></div>
     </div>
 </div>
 
 <div id="modal-marks" class="modal-overlay" onclick="closeModalOnOverlay(event, this)">
     <div class="modal-container">
-        <span class="close-modal" onclick="closeModal('modal-marks')">&times;</span>
+        <button class="close-modal" onclick="closeModal('modal-marks')">&times;</button>
         <h2 class="popup-title"><i class="fas fa-poll-h"></i> Performance Metrics Sheet</h2>
         <div id="marks-display-target"></div>
     </div>
@@ -192,37 +202,30 @@
 
 <div id="modal-info-changes" class="modal-overlay" onclick="closeModalOnOverlay(event, this)">
     <div class="modal-container">
-        <span class="close-modal" onclick="closeModal('modal-info-changes')">&times;</span>
+        <button class="close-modal" onclick="closeModal('modal-info-changes')">&times;</button>
         <h2 class="popup-title"><i class="fas fa-user-edit"></i> Edit Core Particulars</h2>
         <form id="editForm">
             <div class="edit-grid">
-                <div class="edit-password-holder edit-group"><label>Password</label><input type="password" id="edit-password" required></div>
+                <div class="edit-group"><label>Password</label><input type="password" id="edit-password" required></div>
                 <div class="edit-group"><label>Full Name</label><input type="text" id="edit-fullName" required></div>
                 <div class="edit-group"><label>Father's Name</label><input type="text" id="edit-fatherName" required></div>
                 <div class="edit-group"><label>Age</label><input type="number" id="edit-age" required></div>
                 <div class="edit-group">
                     <label>Department</label>
                     <select id="edit-department" required>
-                        <option value="BCA">BCA</option>
-                        <option value="BBA">BBA</option>
-                        <option value="BBA_HT">BBA_HT</option>
-                        <option value="BA">BA</option>
-                        <option value="BSW">BSW</option>
-                        <option value="BCOM">BCOM</option>
-                        <option value="MBA">MBA</option>
-                        <option value="MCOM">MCOM</option>
-                        <option value="MSW">MSW</option>
-                        <option value="MA">MA</option>
+                        <option value="BCA">BCA</option><option value="BBA">BBA</option>
+                        <option value="BBA_HT">BBA_HT</option><option value="BA">BA</option>
+                        <option value="BSW">BSW</option><option value="BCOM">BCOM</option>
+                        <option value="MBA">MBA</option><option value="MCOM">MCOM</option>
+                        <option value="MSW">MSW</option><option value="MA">MA</option>
                         <option value="DOC">DOC</option>
                     </select>
                 </div>
                 <div class="edit-group">
                     <label>Year</label>
                     <select id="edit-year" required>
-                        <option value="1st Year">1st Year</option>
-                        <option value="2nd Year">2nd Year</option>
-                        <option value="3rd Year">3rd Year</option>
-                        <option value="4th Year">4th Year</option>
+                        <option value="1st Year">1st Year</option><option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option><option value="4th Year">4th Year</option>
                     </select>
                 </div>
                 <div class="edit-group"><label>CGPA</label><input type="text" id="edit-cgpa" required></div>
@@ -258,12 +261,12 @@ if(!currentStudentRoll) {
     window.location.href = "index.html";
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
     syncStudentData();
 });
 
 function syncStudentData() {
-    database.ref('students/' + currentStudentRoll).on('value', function(snapshot) {
+    database.ref('students/' + currentStudentRoll).on('value', snapshot => {
         if(snapshot.exists()) {
             activeStudentObject = snapshot.val();
             populateDashboardData(activeStudentObject);
@@ -283,13 +286,13 @@ function populateDashboardData(student) {
     document.getElementById("card-cgpa").innerText = student.cgpa;
 
     document.getElementById("profile-details-target").innerHTML = `
-        <div class="info-item"><span class="label">Father's Relation:</span><span class="val">${student.fatherName}</span></div>
-        <div class="info-item"><span class="label">Age Tracker:</span><span class="val">${student.age} Years</span></div>
-        <div class="info-item"><span class="label">Gender Parameter:</span><span class="val">${student.gender || 'Not Specified'}</span></div>
-        <div class="info-item"><span class="label">Marital Designation:</span><span class="val">${student.maritalStatus || 'Not Specified'}</span></div>
-        <div class="info-item"><span class="label">Cell contact:</span><span class="val">${student.mobile}</span></div>
-        <div class="info-item"><span class="label">Matric School/Year:</span><span class="val">${student.school10 || '---'} (${student.pass10 || '---'})</span></div>
-        <div class="info-item"><span class="label">Secondary School/Year:</span><span class="val">${student.school12 || '---'} (${student.pass12 || '---'})</span></div>
+        <div class="info-item"><span class="label">Father's Name:</span><span class="val">${student.fatherName}</span></div>
+        <div class="info-item"><span class="label">Age:</span><span class="val">${student.age} Years</span></div>
+        <div class="info-item"><span class="label">Gender:</span><span class="val">${student.gender || 'Not Specified'}</span></div>
+        <div class="info-item"><span class="label">Marital Status:</span><span class="val">${student.maritalStatus || 'Not Specified'}</span></div>
+        <div class="info-item"><span class="label">Mobile Contact:</span><span class="val">${student.mobile}</span></div>
+        <div class="info-item"><span class="label">10th Passing Year:</span><span class="val">${student.school10 || '---'} (${student.pass10 || '---'})</span></div>
+        <div class="info-item"><span class="label">12th Passing Year:</span><span class="val">${student.school12 || '---'} (${student.pass12 || '---'})</span></div>
     `;
 
     document.getElementById("edit-password").value = student.password;
@@ -307,13 +310,13 @@ function renderDynamicSyllabus(dept) {
     const contentDiv = document.getElementById("syllabus-content");
     
     if(!dept) {
-        contentDiv.innerHTML = "<p style='text-align:center; color:#999;'>No department found for this profile track.</p>";
+        contentDiv.innerHTML = `<p class="text-center-muted">No department found for this profile track.</p>`;
         return;
     }
 
     let key = dept.trim().toUpperCase();
     titleSpan.innerText = key;
-    contentDiv.innerHTML = "<p style='text-align:center; color:#999;'><i class='fas fa-spinner fa-spin'></i> Loading shared curriculum matrix data...</p>";
+    contentDiv.innerHTML = `<p class="text-center-muted"><i class='fas fa-spinner fa-spin'></i> Loading curriculum data...</p>`;
 
     database.ref('curriculum/' + key).once('value', snapshot => {
         if(snapshot.exists()) {
@@ -336,7 +339,6 @@ function renderDynamicSyllabus(dept) {
                         activeSem = (activeSem + 1) % 6;
                         loops++;
                     }
-                    
                     if (countsPerSem[activeSem] < 3) {
                         semBlocksHtml[activeSem] += pill.outerHTML;
                         countsPerSem[activeSem]++;
@@ -348,12 +350,10 @@ function renderDynamicSyllabus(dept) {
                 for (let i = 0; i < 6; i++) {
                     fullLayoutHtml += `
                         <div class="semester-section">
-                            <h3><i class="fas fa-bookmark" style="color:#0568be;"></i> Semester ${i + 1}</h3>
+                            <h3><i class="fas fa-bookmark"></i> Semester ${i + 1}</h3>
                             <div>${semBlocksHtml[i] || '<span style="color:#aaa; font-size:12px; font-style:italic;">Core Electives Pending</span>'}</div>
-                        </div>
-                    `;
+                        </div>`;
                 }
-                
                 contentDiv.innerHTML = fullLayoutHtml;
             } else {
                 contentDiv.innerHTML = data.content;
@@ -362,16 +362,16 @@ function renderDynamicSyllabus(dept) {
             contentDiv.innerHTML = `
                 <div class="data-item">
                     <h3>${key} Matrix</h3>
-                    <p>Syllabus structural details are currently pending database synchronization from administrative operations.</p>
+                    <p>Syllabus structural details are pending database synchronization.</p>
                 </div>`;
         }
     }).catch(err => {
-        contentDiv.innerHTML = `<p style="color:red; text-align:center;">Error looking up database path: ${err.message}</p>`;
+        contentDiv.innerHTML = `<p class="error-text">Error looking up database path: ${err.message}</p>`;
     });
 }
 
 function renderStudentMarks(roll) {
-    database.ref('marksheetData').once('value', function(snapshot) {
+    database.ref('marksheetData').once('value', snapshot => {
         const target = document.getElementById("marks-display-target");
         let html = "";
         let found = false;
@@ -383,16 +383,15 @@ function renderStudentMarks(roll) {
                 html += `<div class="data-item"><h3>${m.subject}</h3><p>Scored Evaluation Status: <strong>${m.marks} / 100</strong></p></div>`;
             }
         });
-
-        target.innerHTML = found ? html : `<p style='text-align:center; color:#999;'>No performance marks entries uploaded for this profile yet.</p>`;
+        target.innerHTML = found ? html : `<p class="text-center-muted">No performance marks entries uploaded yet.</p>`;
     });
 }
 
-document.getElementById("editForm").addEventListener("submit", function(e) {
+document.getElementById("editForm").addEventListener("submit", e => {
     e.preventDefault();
     
-    const updatedStudent = {
-        ...activeStudentObject,
+    // Explicit targeting instead of destructively spreading mutable root reference keys
+    const updatedFields = {
         password: document.getElementById("edit-password").value,
         fullName: document.getElementById("edit-fullName").value,
         fatherName: document.getElementById("edit-fatherName").value,
@@ -403,9 +402,9 @@ document.getElementById("editForm").addEventListener("submit", function(e) {
         mobile: document.getElementById("edit-mobile").value
     };
 
-    database.ref('students/' + currentStudentRoll).update(updatedStudent)
+    database.ref('students/' + currentStudentRoll).update(updatedFields)
     .then(() => {
-        alert("Profile update synced successfully across live configuration!");
+        alert("Profile updated successfully!");
         closeModal('modal-info-changes');
     })
     .catch(err => alert("Update failed: " + err.message));
